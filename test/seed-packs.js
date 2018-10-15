@@ -9,17 +9,13 @@ describe('harvester: seed-packs', function() {
   var pack = packs[0];
 
   it('should automatically include seed packs (from package.json)', function() {
-    assert.equal(true, packs[1].includes('seed-breakpoints'));
+    assert.equal(true, packs[1].includes('@seedcss/seed-color-scheme'));
+    assert.equal(true, packs[3].includes('seed-breakpoints'));
   });
 
   it('should include seed packs dependencies', function() {
-    assert.equal(true, pack.includes('seed-props'));
-  });
-
-  it('should prefer pack dependencies specified by package.json', function() {
-    var samplePack = findRoot(__dirname) + '/node_modules/pack-name/scss';
-    var packDirLength = samplePack.split('/').length;
-    assert.equal(packDirLength, pack.split('/').length);
+    assert.equal(true, packs[0].includes('@seedcss/seed-config'));
+    assert.equal(true, packs[2].includes('seed-props'));
   });
 
   it('should not include duplicate seed packs or dependencies', function() {

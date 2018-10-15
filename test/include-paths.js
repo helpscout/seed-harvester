@@ -2,7 +2,7 @@
 
 var assert = require('chai').assert;
 var harvester = require('../index');
-var packLength = 9;
+var packLength = 11;
 
 describe('harvester: include paths', function() {
   var paths = harvester('path');
