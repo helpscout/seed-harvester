@@ -18,12 +18,6 @@ describe('harvester: seed-packs', function() {
     assert.equal(true, packs[2].includes('seed-props'));
   });
 
-  it('should prefer pack dependencies specified by package.json', function() {
-    var samplePack = findRoot(__dirname) + '/node_modules/pack-name/scss';
-    var packDirLength = samplePack.split('/').length;
-    assert.isAtLeast(packDirLength, pack.split('/').length - 1);
-  });
-
   it('should not include duplicate seed packs or dependencies', function() {
     var packList = packs.map(function(pack) {
       pack = pack.split('/');
