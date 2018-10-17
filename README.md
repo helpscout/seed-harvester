@@ -1,6 +1,8 @@
-# seed-harvester [![Build Status](https://travis-ci.org/helpscout/seed-harvester.svg?branch=master)](https://travis-ci.org/helpscout/seed-harvester) [![npm version](https://badge.fury.io/js/seed-harvester.svg)](https://badge.fury.io/js/seed-harvester) [![Dependency Status](https://david-dm.org/helpscout/seed-harvester.svg)](https://david-dm.org/helpscout/seed-harvester)
+# seed-harvester
 
-Automatically include seed pack dependencies for node-sass!
+[![Build Status](https://travis-ci.org/helpscout/seed-harvester.svg?branch=master)](https://travis-ci.org/helpscout/seed-harvester) [![npm version](https://badge.fury.io/js/seed-harvester.svg)](https://badge.fury.io/js/seed-harvester) [![Dependency Status](https://david-dm.org/helpscout/seed-harvester.svg)](https://david-dm.org/helpscout/seed-harvester)
+
+> Automatically include seed pack dependencies for node-sass!
 
 
 **Table of Contents**
