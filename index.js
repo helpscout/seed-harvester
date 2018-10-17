@@ -1,45 +1,44 @@
-'use strict';
+"use strict";
 
-var findRoot = require('find-root');
-var flattenDeep = require('lodash.flattendeep');
-var pathfinder = require('sass-pathfinder');
-var packfinder = require('seed-packfinder');
-var uniqBy = require('lodash.uniqby');
+const findRoot = require("find-root");
+const flattenDeep = require("lodash.flattendeep");
+const pathfinder = require("sass-pathfinder");
+const packfinder = require("seed-packfinder");
+const uniqBy = require("lodash.uniqby");
 
-var root = findRoot(__dirname);
+const root = findRoot(__dirname);
 
-var getPackName = function(path) {
-  if (!path || typeof(path) != 'string') {
+const getPackName = path => {
+  if (!path || typeof path != "string") {
     return false;
   }
-  var split = path.split('/');
+  const split = path.split("/");
   return split[split.length - 2];
 };
 
-var getPackPath = function(pack) {
-  var pkgRoot = root.split('/node_modules')[0];
-  if (!pack || typeof(pack) != 'string') {
+const getPackPath = pack => {
+  const pkgRoot = root.split("/node_modules")[0];
+  if (!pack || typeof pack != "string") {
     return false;
   }
-  return pkgRoot + '/node_modules/' + pack + '/scss' ;
+  return `${pkgRoot}/node_modules/${pack}/scss`;
 };
 
-var resolveImportDeps = function(packs) {
-  var packs = packs.map(function(pack) {
-    var packName = getPackName(pack);
-    var packPath = getPackPath(packName);
-    if (packs.indexOf(packPath) >= 0) {
+const resolveImportDeps = packs => {
+  var packs = packs.map(pack => {
+    const packName = getPackName(pack);
+    const packPath = getPackPath(packName);
+    if (packs.includes(packPath)) {
       return packPath;
-    }
-    else {
+    } else {
       return pack;
     }
   });
   return packs;
 };
 
-var resolvePacks = function(packs) {
-  var packList;
+const resolvePacks = packs => {
+  let packList;
   packs ? packs : [];
 
   if (packs.length) {
@@ -48,50 +47,47 @@ var resolvePacks = function(packs) {
     // Adjust pack list to respect project's deps
     packs = resolveImportDeps(packs);
 
-    packList = packs.map(function(pack) {
+    packList = packs.map(pack => {
       // Get the second last string within the path
-      var packName = pack.split('/');
+      let packName = pack.split("/");
       packName = packName[packName.length - 2];
       // Return an object to make it possible to remove duplicates
       return {
-        packName: packName,
+        packName,
         path: pack
-      }
+      };
     });
 
     // De-dup the pack list
-    packList = uniqBy(packList, 'packName');
+    packList = uniqBy(packList, "packName");
 
     // Transform the list back into an array of paths
-    packs = packList.map(function(pack) {
-      return pack.path;
-    });
+    packs = packList.map(pack => pack.path);
   }
 
   return packs;
 };
 
-var requirePack = function(pack) {
-  if (!pack || typeof pack !== 'string') {
+const requirePack = pack => {
+  if (!pack || typeof pack !== "string") {
     return;
   }
   pack = require(pack);
-  if (typeof pack === 'string' || (pack instanceof Array === true)) {
+  if (typeof pack === "string" || pack instanceof Array === true) {
     return pack;
-  }
-  else {
-    return '';
+  } else {
+    return "";
   }
 };
 
-var harvester = function() {
+const harvester = function() {
   // Define the export array
-  var includePaths = [];
-  var paths = pathfinder(arguments);
-  var packs = packfinder.find();
+  let includePaths = [];
+  const paths = pathfinder(arguments);
+  const packs = packfinder.find();
 
   if (packs.length) {
-    packs.forEach(function(pack) {
+    packs.forEach(pack => {
       includePaths.push(requirePack(pack));
     });
   }
